@@ -17,7 +17,10 @@ const App = () => {
   const reoder = async (sourceIndex, destinationIndex) => {
     const result = await fetch("http://localhost:3001/reoder/", {
       method: "PUT",
-      body: JSON.stringify({ sourceIndex, destinationIndex }),
+      body: JSON.stringify({
+        sourceIndex,
+        destinationIndex
+      }),
       headers: new Headers({
         "Content-Type": "application/json"
       })
