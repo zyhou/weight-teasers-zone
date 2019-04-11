@@ -6,20 +6,16 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch("http://localhost:3000/teasers");
-
-      setTeasers([
-        { id: 1, name: "teaser 1" },
-        { id: 2, name: "teaser 2" },
-        { id: 3, name: "teaser 3" }
-      ]);
+      const result = await fetch("http://localhost:3001/teasers");
+      const teasersResult = await result.json();
+      setTeasers(teasersResult);
     };
 
     fetchData();
   }, []);
 
   const reoder = async (sourceIndex, destinationIndex) => {
-    const result = await fetch("http://localhost:3000/reoder/", {
+    const result = await fetch("http://localhost:3001/reoder/", {
       method: "PUT",
       body: JSON.stringify({ sourceIndex, destinationIndex }),
       headers: new Headers({
@@ -27,7 +23,8 @@ const App = () => {
       })
     });
 
-    //setTeasers(result);
+    const teasersResult = await result.json();
+    setTeasers(teasersResult);
   };
 
   return (

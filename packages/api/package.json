@@ -1,0 +1,14 @@
+{
+  "name": "@weight-teasers-zone/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
