@@ -1,28 +1,40 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import TeaserList from "./TeaserList";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
-}
+const App = () => {
+  const [teasers, setTeasers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch("http://localhost:3000/teasers");
+
+      setTeasers([
+        { id: 1, name: "teaser 1" },
+        { id: 2, name: "teaser 2" },
+        { id: 3, name: "teaser 3" }
+      ]);
+    };
+
+    fetchData();
+  }, []);
+
+  const reoder = async (sourceIndex, destinationIndex) => {
+    const result = await fetch("http://localhost:3000/reoder/", {
+      method: "PUT",
+      body: JSON.stringify({ sourceIndex, destinationIndex }),
+      headers: new Headers({
+        "Content-Type": "application/json"
+      })
+    });
+
+    //setTeasers(result);
+  };
+
+  return (
+    <div>
+      <TeaserList teasers={teasers} reorder={reoder} />
+    </div>
+  );
+};
 
 export default App;
