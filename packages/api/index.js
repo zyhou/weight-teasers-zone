@@ -5,9 +5,7 @@ dotenv.config({ path: "../../.env" });
 
 const reoder = require("./reorder");
 const db = require("./db");
-
 const app = express();
-const port = 3001;
 
 const catchAsyncError = fn => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
@@ -50,4 +48,6 @@ app.get(
   })
 );
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(process.env.EXPRESS_PORT, () =>
+  console.log(`Example app listening on port ${process.env.EXPRESS_PORT}!`)
+);
