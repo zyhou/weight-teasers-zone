@@ -1,10 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+dotenv.config({ path: "../../.env" });
 
 const reoder = require("./reorder");
+const db = require("./db");
 
 const app = express();
 const port = 3001;
+
+const catchAsyncError = fn => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -35,5 +41,13 @@ app.post("/teasers/add", (req, res) => {
   teasers = [...teasers, { id: count, name: `teaser ${count}` }];
   return res.send(JSON.stringify(teasers));
 });
+
+app.get(
+  "/",
+  catchAsyncError(async (req, res) => {
+    const { rows } = await db.query("select * from teasers");
+    return res.send(rows);
+  })
+);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
