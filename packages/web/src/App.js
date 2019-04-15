@@ -5,7 +5,7 @@ import TeaserZoneList from "./TeaserZoneList";
 import TeaserList from "./TeaserList";
 import ZonesList from "./ZonesList";
 
-import { appFetch, appPutFetch, appPostFetch } from "./fetch";
+import { appFetch, appPutFetch, appPostFetch, appDeleteFetch } from "./fetch";
 
 const Wrapper = styled.div`
   display: grid;
@@ -33,7 +33,7 @@ const App = () => {
   const [teasers, setTeasers] = useState([]);
   const [currentZoneId, setCurrentZoneId] = useState();
 
-  const reoder = async (sourceIndex, destinationIndex) => {
+  const handleReoder = async (sourceIndex, destinationIndex) => {
     const result = await appPutFetch("/zonesTeasers/reoder/", {
       zoneId: currentZoneId,
       sourceIndex,
@@ -56,6 +56,13 @@ const App = () => {
     setTeasers(result);
   };
 
+  const handleOnDeleteTeaser = async teaserId => {
+    const result = await appDeleteFetch(`/zonesTeasers/${currentZoneId}`, {
+      teaserId
+    });
+    setTeasers(result);
+  };
+
   return (
     <Wrapper>
       <Header>
@@ -65,7 +72,11 @@ const App = () => {
         <TeaserList onAddTeaserInZone={handleOnAddTeaserInZone} />
       </Aside>
       <Content>
-        <TeaserZoneList teasers={teasers} reorder={reoder} />
+        <TeaserZoneList
+          teasers={teasers}
+          onReorder={handleReoder}
+          onDeleteTeaser={handleOnDeleteTeaser}
+        />
       </Content>
     </Wrapper>
   );

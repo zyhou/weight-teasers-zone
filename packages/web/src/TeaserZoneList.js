@@ -27,14 +27,17 @@ const Cell = styled.td`
   width: 50%;
 `;
 
-const TableRow = ({ snapshot, provided, teaser }) => (
+const TableRow = ({ snapshot, provided, teaser, onDeleteTeaser }) => (
   <Row
     ref={provided.innerRef}
     isDragging={snapshot.isDragging}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
   >
-    <Cell>{teaser.name}</Cell>
+    <Cell>
+      <button onClick={() => onDeleteTeaser(teaser.id)}>-</button>
+      {teaser.name}
+    </Cell>
   </Row>
 );
 
@@ -53,12 +56,12 @@ class TeaserZoneList extends Component {
       return;
     }
 
-    const { reorder } = this.props;
-    reorder(result.source.index, result.destination.index);
+    const { onReorder } = this.props;
+    onReorder(result.source.index, result.destination.index);
   };
 
   render() {
-    const { teasers } = this.props;
+    const { teasers, onDeleteTeaser } = this.props;
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Table>
@@ -87,6 +90,7 @@ class TeaserZoneList extends Component {
                         provided={provided}
                         snapshot={snapshot}
                         teaser={teaser}
+                        onDeleteTeaser={onDeleteTeaser}
                       />
                     )}
                   </Draggable>

@@ -11,7 +11,7 @@ const catchAsyncError = fn => (req, res, next) =>
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST");
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
@@ -90,6 +90,31 @@ app.post(
     `,
       [zoneId, teaserId, weights[0].maxweight]
     );
+    const teasers = await getZonesTeasersOrder(zoneId);
+    return res.send(teasers);
+  })
+);
+
+app.delete(
+  "/zonesTeasers/:zoneId",
+  catchAsyncError(async (req, res) => {
+    const { zoneId } = req.params;
+    const { teaserId } = req.body;
+    const { rows: result } = await db.query(
+      `delete from zones_teasers where zones_id = $1 and teasers_id = $2 returning weight`,
+      [zoneId, teaserId]
+    );
+
+    const weight = result[0].weight;
+
+    await db.query(
+      `update zones_teasers
+       set weight = zones_teasers.weight - 1
+       where zones_teasers.weight > $2
+       and zones_teasers.zones_id = $1`,
+      [zoneId, weight]
+    );
+
     const teasers = await getZonesTeasersOrder(zoneId);
     return res.send(teasers);
   })

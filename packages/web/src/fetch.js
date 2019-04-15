@@ -18,3 +18,8 @@ export const appPutFetch = async (path, param, options = {}) => {
   const body = JSON.stringify({ ...param });
   return appFetch(path, { ...options, body, method: "PUT" });
 };
+
+export const appDeleteFetch = async (path, param, options = {}) => {
+  const body = JSON.stringify({ ...param });
+  return appFetch(path, { ...options, body, method: "DELETE" });
+};
