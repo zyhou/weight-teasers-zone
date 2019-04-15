@@ -22,8 +22,7 @@ INSERT INTO teasers (name)
 VALUES ('teaser_1'), ('teaser_2'), ('teaser_3');
 
 INSERT INTO zones_teasers (zones_id, teasers_id, weight)
-VALUES
-	(1, 1, 1),
+VALUES (1, 1, 1),
 	(1, 2, 2),
     (1, 3, 3),
     (2, 1, 1);
