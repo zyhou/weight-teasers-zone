@@ -27,3 +27,18 @@ VALUES
 	(1, 2, 2),
     (1, 3, 3),
     (2, 1, 1);
+
+-- https://www.db-fiddle.com/f/cu1EseTemqYAJmGHwzMaLi/15
+
+-- remove
+-- update zones_teasers
+-- set weight = zones_teasers.weight - 1
+-- where zones_teasers.weight > 2
+--   and zones_teasers.zones_id = 1;
+
+-- add
+-- update zones_teasers
+-- set weight = zones_teasers.weight + 1
+-- where zones_teasers.weight >= 1
+--   and zones_teasers.zones_id = 2
+--   and zones_teasers.teasers_id != 3;

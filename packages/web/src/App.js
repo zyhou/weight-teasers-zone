@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import TeaserZoneList from "./TeaserZoneList";
 import TeaserList from "./TeaserList";
-import { appFetch, appPostFetch, appPutFetch } from "./fetch";
+import ZonesList from "./ZonesList";
+import { appFetch, appPutFetch } from "./fetch";
 
 const App = () => {
   const [teasers, setTeasers] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await appFetch("/teasers");
-      setTeasers(result);
-    };
-
-    fetchData();
-  }, []);
+  const [currentZoneId, setCurrentZoneId] = useState();
 
   const reoder = async (sourceIndex, destinationIndex) => {
-    const result = await appPutFetch("/teasers/reoder/", {
+    const result = await appPutFetch("/zonesTeasers/reoder/", {
+      zoneId: currentZoneId,
       sourceIndex,
       destinationIndex
     });
@@ -23,15 +18,17 @@ const App = () => {
     setTeasers(result);
   };
 
-  const addTeaserOnClick = async () => {
-    const result = await appPostFetch("/teasers/add");
+  const handleZoneChange = async id => {
+    const result = await appFetch(`/zonesTeasers/${id}`);
     setTeasers(result);
+    setCurrentZoneId(id);
   };
 
   return (
     <div>
-      <button onClick={addTeaserOnClick}>Add teaser</button>
-      <TeaserList teasers={teasers} reorder={reoder} />
+      <ZonesList onChange={handleZoneChange} />
+      <TeaserList />
+      <TeaserZoneList teasers={teasers} reorder={reoder} />
     </div>
   );
 };

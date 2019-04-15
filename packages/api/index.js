@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 dotenv.config({ path: "../../.env" });
 
-const reoder = require("./reorder");
 const db = require("./db");
 const app = express();
 
@@ -18,33 +17,72 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json());
 
-let teasers = [
-  { id: 1, name: "teaser 1" },
-  { id: 2, name: "teaser 2" },
-  { id: 3, name: "teaser 3" }
-];
+app.get(
+  "/teasers",
+  catchAsyncError(async (req, res) => {
+    const { rows: teasers } = await db.query(`
+        select * from teasers order by teasers.id;
+    `);
+    return res.send(teasers);
+  })
+);
 
-app.get("/teasers", (req, res) => {
-  return res.send(JSON.stringify(teasers));
-});
-
-app.put("/teasers/reoder", (req, res) => {
-  const { sourceIndex, destinationIndex } = req.body;
-  teasers = reoder(teasers, sourceIndex, destinationIndex);
-  return res.send(JSON.stringify(teasers));
-});
-
-app.post("/teasers/add", (req, res) => {
-  const count = teasers.length + 1;
-  teasers = [...teasers, { id: count, name: `teaser ${count}` }];
-  return res.send(JSON.stringify(teasers));
-});
+app.post(
+  "/teasers",
+  catchAsyncError(async (req, res) => {
+    const { name } = req.body;
+    const { rows } = await db.query(
+      `insert into teasers (name) values ($1) returning *`,
+      [name]
+    );
+    return res.send(rows[0]);
+  })
+);
 
 app.get(
-  "/",
+  "/zones",
   catchAsyncError(async (req, res) => {
-    const { rows } = await db.query("select * from teasers");
-    return res.send(rows);
+    const { rows: zones } = await db.query(`
+        select * from zones order by zones.id;
+    `);
+    return res.send(zones);
+  })
+);
+
+app.get(
+  "/zonesTeasers/:zoneId",
+  catchAsyncError(async (req, res) => {
+    const { zoneId } = req.params;
+    const { rows: teasers } = await db.query(
+      `
+        select teasers.id, teasers.name
+        from zones_teasers
+        join teasers on zones_teasers.teasers_id = teasers.id
+        where zones_teasers.zones_id = $1
+        order by zones_teasers.weight, zones_teasers.teasers_id;
+    `,
+      [zoneId]
+    );
+    return res.send(teasers);
+  })
+);
+
+app.put(
+  "/zonesTeasers/reoder",
+  catchAsyncError(async (req, res) => {
+    const { zoneId, sourceIndex, destinationIndex } = req.body;
+
+    const { rows: teasers } = await db.query(
+      `
+        select teasers.id, teasers.name
+        from zones_teasers
+        join teasers on zones_teasers.teasers_id = teasers.id
+        where zones_teasers.zones_id = $1
+        order by zones_teasers.weight, zones_teasers.teasers_id;
+    `,
+      [zoneId]
+    );
+    return res.send(teasers);
   })
 );
 

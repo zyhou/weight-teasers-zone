@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:3002";
 
 export const appFetch = async (path, options = {}) => {
   const headers = new Headers({
@@ -9,8 +9,9 @@ export const appFetch = async (path, options = {}) => {
   return await result.json();
 };
 
-export const appPostFetch = async (path, options = {}) => {
-  return appFetch(path, { ...options, method: "POST" });
+export const appPostFetch = async (path, param, options = {}) => {
+  const body = JSON.stringify({ ...param });
+  return appFetch(path, { ...options, body, method: "POST" });
 };
 
 export const appPutFetch = async (path, param, options = {}) => {

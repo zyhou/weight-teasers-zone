@@ -15,3 +15,6 @@ create-db:
 
 init-db:
 	psql $(PGDATABASE) < packages/api/db/init.sql
+
+drop-db:
+	sudo -u postgres dropdb $(PGDATABASE)
