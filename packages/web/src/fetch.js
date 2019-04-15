@@ -1,11 +1,12 @@
-const API_URL = "http://localhost:3001";
-
 export const appFetch = async (path, options = {}) => {
   const headers = new Headers({
     "Content-Type": "application/json"
   });
 
-  const result = await fetch(API_URL + path, { ...options, headers });
+  const result = await fetch(process.env.REACT_APP_API_URL + path, {
+    ...options,
+    headers
+  });
   return await result.json();
 };
 
