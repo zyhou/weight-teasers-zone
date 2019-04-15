@@ -71,7 +71,6 @@ app.put(
   "/zonesTeasers/reoder",
   catchAsyncError(async (req, res) => {
     const { zoneId, sourceIndex, destinationIndex } = req.body;
-
     const { rows: teasers } = await db.query(
       `
         select teasers.id, teasers.name
