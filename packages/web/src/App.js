@@ -33,11 +33,11 @@ const App = () => {
   const [teasers, setTeasers] = useState([]);
   const [currentZoneId, setCurrentZoneId] = useState();
 
-  const handleReoder = async (sourceIndex, destinationIndex) => {
+  const handleReoder = async (source, destination) => {
     const result = await appPutFetch("/zonesTeasers/reoder/", {
       zoneId: currentZoneId,
-      sourceIndex,
-      destinationIndex
+      source,
+      destination
     });
 
     setTeasers(result);

@@ -36,7 +36,7 @@ const TableRow = ({ snapshot, provided, teaser, onDeleteTeaser }) => (
   >
     <Cell>
       <button onClick={() => onDeleteTeaser(teaser.id)}>-</button>
-      {teaser.name}
+      {teaser.name} - <b>{teaser.weight}</b>
     </Cell>
   </Row>
 );
@@ -56,8 +56,8 @@ class TeaserZoneList extends Component {
       return;
     }
 
-    const { onReorder } = this.props;
-    onReorder(result.source.index, result.destination.index);
+    const { onReorder, teasers } = this.props;
+    onReorder(teasers[result.source.index], teasers[result.destination.index]);
   };
 
   render() {

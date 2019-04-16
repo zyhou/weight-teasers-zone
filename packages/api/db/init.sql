@@ -29,15 +29,10 @@ VALUES (1, 1, 1),
 
 -- https://www.db-fiddle.com/f/cu1EseTemqYAJmGHwzMaLi/15
 
--- remove
--- update zones_teasers
--- set weight = zones_teasers.weight - 1
--- where zones_teasers.weight > 2
---   and zones_teasers.zones_id = 1;
+--  delete from zones_teasers;
 
--- add
--- update zones_teasers
--- set weight = zones_teasers.weight + 1
--- where zones_teasers.weight >= 1
---   and zones_teasers.zones_id = 2
---   and zones_teasers.teasers_id != 3;
+-- select teasers.id, teasers.name, zones_teasers.weight
+-- from zones_teasers
+-- join teasers on zones_teasers.teasers_id = teasers.id
+-- where zones_teasers.zones_id = 1
+-- order by zones_teasers.weight desc, zones_teasers.teasers_id;
