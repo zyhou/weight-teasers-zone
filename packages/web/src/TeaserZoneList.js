@@ -36,7 +36,7 @@ const TableRow = ({ snapshot, provided, teaser, onDeleteTeaser }) => (
   >
     <Cell>
       <button onClick={() => onDeleteTeaser(teaser.id)}>-</button>
-      {teaser.name} - <b>{teaser.weight}</b>
+      {teaser.name}
     </Cell>
   </Row>
 );
@@ -67,7 +67,7 @@ class TeaserZoneList extends Component {
         <Table>
           <THead>
             <tr>
-              <th>Name</th>
+              <th>Teasers order</th>
             </tr>
           </THead>
           <Droppable droppableId="table">
