@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "@emotion/styled";
 
 import TeaserZoneList from "./TeaserZoneList";
@@ -7,26 +7,35 @@ import ZonesList from "./ZonesList";
 
 import { appFetch, appPutFetch, appPostFetch, appDeleteFetch } from "./fetch";
 
-const Wrapper = styled.div`
-  display: grid;
-  grid-gap: 10px 20px;
-  grid-template-rows: 1fr 1fr auto;
-  grid-template-columns: 300px 1fr;
-  grid-template-areas:
-    "header  header  "
-    "aside   content ";
+const Header = styled.div`
+  width: 100%;
+  height: 60px;
+  background: pink;
 `;
 
-const Header = styled.div`
-  grid-area: header;
+const Container = styled.div`
+  flex: 1 0 auto;
+  display: flex;
 `;
 
 const Aside = styled.div`
-  grid-area: aside;
+  width: 100px;
+  list-style: none;
+  text-align: left;
+  order: -1;
+  background: yellow;
+  margin: 0;
 `;
 
 const Content = styled.div`
-  grid-area: content;
+  flex: 1 0 auto;
+  background: lightgreen;
+`;
+
+const Footer = styled.footer`
+  width: 100%;
+  height: 60px;
+  background: cyan;
 `;
 
 const App = () => {
@@ -64,21 +73,24 @@ const App = () => {
   };
 
   return (
-    <Wrapper>
+    <Fragment>
       <Header>
         <ZonesList onChange={handleZoneChange} />
       </Header>
-      <Aside>
-        <TeaserList onAddTeaserInZone={handleOnAddTeaserInZone} />
-      </Aside>
-      <Content>
-        <TeaserZoneList
-          teasers={teasers}
-          onReorder={handleReoder}
-          onDeleteTeaser={handleOnDeleteTeaser}
-        />
-      </Content>
-    </Wrapper>
+      <Container>
+        <Aside>
+          <TeaserList onAddTeaserInZone={handleOnAddTeaserInZone} />
+        </Aside>
+        <Content>
+          <TeaserZoneList
+            teasers={teasers}
+            onReorder={handleReoder}
+            onDeleteTeaser={handleOnDeleteTeaser}
+          />
+        </Content>
+      </Container>
+      <Footer>Footer</Footer>
+    </Fragment>
   );
 };
 
