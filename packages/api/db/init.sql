@@ -26,13 +26,3 @@ VALUES (1, 1, 1),
 	(1, 2, 2),
     (1, 3, 3),
     (2, 1, 1);
-
--- https://www.db-fiddle.com/f/cu1EseTemqYAJmGHwzMaLi/15
-
---  delete from zones_teasers;
-
--- select teasers.id, teasers.name, zones_teasers.weight
--- from zones_teasers
--- join teasers on zones_teasers.teasers_id = teasers.id
--- where zones_teasers.zones_id = 1
--- order by zones_teasers.weight desc, zones_teasers.teasers_id;
