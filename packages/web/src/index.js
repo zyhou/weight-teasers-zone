@@ -1,5 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./components/App";
+import { ThemeProvider, defaultTheme } from "./useTheme";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const AppConnected = () => (
+  <ThemeProvider value={defaultTheme}>
+    <App />
+  </ThemeProvider>
+);
+
+ReactDOM.render(<AppConnected />, document.getElementById("root"));

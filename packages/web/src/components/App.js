@@ -1,16 +1,21 @@
 import React, { Fragment, useState } from "react";
 import styled from "@emotion/styled";
 
+import useTheme from "../useTheme";
+
 import TeaserZoneList from "./TeaserZoneList";
 import TeaserList from "./TeaserList";
 import ZonesList from "./ZonesList";
 
-import { appFetch, appPutFetch, appPostFetch, appDeleteFetch } from "./fetch";
+import { appFetch, appPutFetch, appPostFetch, appDeleteFetch } from "../fetch";
 
 const Header = styled.div`
   width: 100%;
   height: 60px;
-  background: pink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: ${({ theme }) => theme.palette.primary.main};
 `;
 
 const Container = styled.div`
@@ -19,26 +24,24 @@ const Container = styled.div`
 `;
 
 const Aside = styled.div`
-  width: 100px;
-  list-style: none;
+  width: 300px;
   text-align: left;
-  order: -1;
-  background: yellow;
-  margin: 0;
+  background: ${({ theme }) => theme.palette.primary.dark};
 `;
 
 const Content = styled.div`
   flex: 1 0 auto;
-  background: lightgreen;
+  background: ${({ theme }) => theme.palette.secondary.light};
 `;
 
 const Footer = styled.footer`
   width: 100%;
   height: 60px;
-  background: cyan;
+  background: ${({ theme }) => theme.palette.primary.main};
 `;
 
 const App = () => {
+  const theme = useTheme();
   const [teasers, setTeasers] = useState([]);
   const [currentZoneId, setCurrentZoneId] = useState();
 
@@ -74,14 +77,14 @@ const App = () => {
 
   return (
     <Fragment>
-      <Header>
+      <Header theme={theme}>
         <ZonesList onChange={handleZoneChange} />
       </Header>
       <Container>
-        <Aside>
+        <Aside theme={theme}>
           <TeaserList onAddTeaserInZone={handleOnAddTeaserInZone} />
         </Aside>
-        <Content>
+        <Content theme={theme}>
           <TeaserZoneList
             teasers={teasers}
             onReorder={handleReoder}
@@ -89,7 +92,7 @@ const App = () => {
           />
         </Content>
       </Container>
-      <Footer>Footer</Footer>
+      <Footer theme={theme} />
     </Fragment>
   );
 };

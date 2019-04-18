@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { appFetch, appPostFetch } from "./fetch";
+import { appFetch, appPostFetch } from "../fetch";
 
 const TableRow = ({ onAddTeaserInZone, id, name }) => (
   <tr>
