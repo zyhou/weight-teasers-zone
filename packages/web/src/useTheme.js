@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 
 export const defaultTheme = {
   palette: {
@@ -15,7 +15,13 @@ export const defaultTheme = {
 };
 
 const ThemeContext = createContext({});
-export let ThemeProvider = ThemeContext.Provider;
+export const ThemeProvider = ThemeContext.Provider;
+
+export const withTheme = Component => ({ ...props }) => (
+  <ThemeContext.Consumer>
+    {value => <Component theme={value} {...props} />}
+  </ThemeContext.Consumer>
+);
 
 const useTheme = () => useContext(ThemeContext);
 export default useTheme;

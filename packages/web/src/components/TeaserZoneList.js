@@ -2,23 +2,21 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import { withTheme } from "../useTheme";
+
 const Table = styled.table`
   width: 500px;
   margin: 0 auto;
+  color: ${({ theme }) => theme.palette.primary.main};
 `;
 
 const TBody = styled.tbody`
   border: 0;
 `;
 
-const THead = styled.thead`
-  border: 0;
-  border-bottom: none;
-  background-color: red;
-`;
-
 const Row = styled.tr`
-  ${props => (props.isDragging ? `background: blue;` : "")};
+  ${({ theme, isDragging }) =>
+    isDragging ? `background: ${theme.palette.secondary.light};` : ""};
 `;
 
 const Cell = styled.td`
@@ -27,17 +25,33 @@ const Cell = styled.td`
   width: 50%;
 `;
 
-const TableRow = ({ snapshot, provided, teaser, onDeleteTeaser }) => (
+const RemoveTeaserButton = styled.button`
+  border: 0;
+  font-size: large;
+  background-color: transparent;
+  color: ${({ theme }) => theme.palette.secondary.light};
+  border: ${({ theme }) => `2px solid ${theme.palette.primary.main}`};
+  cursor: pointer;
+`;
+
+const TableRow = ({ snapshot, provided, theme, teaser, onDeleteTeaser }) => (
   <Row
     ref={provided.innerRef}
     isDragging={snapshot.isDragging}
+    theme={theme}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
   >
     <Cell>
-      <button onClick={() => onDeleteTeaser(teaser.id)}>-</button>
-      {teaser.name}
+      <RemoveTeaserButton
+        theme={theme}
+        onClick={() => onDeleteTeaser(teaser.id)}
+      >
+        -
+      </RemoveTeaserButton>
     </Cell>
+    <Cell>{teaser.name}</Cell>
+    <Cell>{teaser.weight}</Cell>
   </Row>
 );
 
@@ -61,15 +75,17 @@ class TeaserZoneList extends Component {
   };
 
   render() {
-    const { teasers, onDeleteTeaser } = this.props;
+    const { teasers, onDeleteTeaser, theme } = this.props;
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <Table>
-          <THead>
+        <Table theme={theme}>
+          <thead>
             <tr>
-              <th>Teasers order</th>
+              <th>Action</th>
+              <th>Name</th>
+              <th>Position</th>
             </tr>
-          </THead>
+          </thead>
           <Droppable droppableId="table">
             {droppableProvided => (
               <TBody
@@ -89,6 +105,7 @@ class TeaserZoneList extends Component {
                       <TableRow
                         provided={provided}
                         snapshot={snapshot}
+                        theme={theme}
                         teaser={teaser}
                         onDeleteTeaser={onDeleteTeaser}
                       />
@@ -105,4 +122,4 @@ class TeaserZoneList extends Component {
   }
 }
 
-export default TeaserZoneList;
+export default withTheme(TeaserZoneList);
