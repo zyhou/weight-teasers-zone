@@ -7,6 +7,9 @@ export const appFetch = async (path, options = {}) => {
     ...options,
     headers
   });
+  if (result.status !== 200) {
+    return null;
+  }
   return await result.json();
 };
 

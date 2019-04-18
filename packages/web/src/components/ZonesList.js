@@ -5,7 +5,7 @@ import { appFetch } from "../fetch";
 import useTheme from "../useTheme";
 
 const ContainerSelect = styled.div`
-  background-color: ${({ theme }) => theme.palette.primary.light};
+  background-color: ${({ theme }) => theme.palette.secondary.light};
   width: 10em;
   height: 3em;
   line-height: 3;
@@ -14,14 +14,15 @@ const ContainerSelect = styled.div`
 `;
 
 const Select = styled.select`
-  border: 0 !important;
-  background: ${({ theme }) => theme.palette.primary.light};
+  border: 0;
+  background: ${({ theme }) => theme.palette.secondary.light};
   width: 100%;
   height: 100%;
   padding: 0 0 0 1em;
-  color: ${({ theme }) => theme.palette.secondary.light};
+  color: ${({ theme }) => theme.palette.secondary.main};
   cursor: pointer;
   font-size: large;
+  text-transform: uppercase;
 `;
 
 const Option = ({ id, name }) => <option value={id}>{name}</option>;

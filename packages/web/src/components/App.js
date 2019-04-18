@@ -9,35 +9,43 @@ import ZonesList from "./ZonesList";
 
 import { appFetch, appPutFetch, appPostFetch, appDeleteFetch } from "../fetch";
 
-const Header = styled.div`
-  width: 100%;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: ${({ theme }) => theme.palette.primary.main};
-`;
-
 const Container = styled.div`
-  flex: 1 0 auto;
   display: flex;
+  flex: 1 0 auto;
 `;
 
 const Aside = styled.div`
-  width: 300px;
+  width: auto;
+  padding: 10px;
   text-align: left;
   background: ${({ theme }) => theme.palette.primary.dark};
 `;
 
+const AsideHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Content = styled.div`
   flex: 1 0 auto;
+  padding: 10px;
   background: ${({ theme }) => theme.palette.secondary.main};
 `;
 
-const Footer = styled.footer`
-  width: 100%;
-  height: 60px;
-  background: ${({ theme }) => theme.palette.primary.main};
+const Separator = styled.hr`
+  height: 1px;
+  background-color: ${({ color }) => color};
+  border: 0;
+`;
+
+const Title = styled.div`
+  color: ${({ theme }) => theme.palette.primary.light};
+  font-weight: bold;
+  font-size: large;
+  display: flex;
+  align-items: center;
+  font-size: 2.7em;
 `;
 
 const App = () => {
@@ -52,7 +60,9 @@ const App = () => {
       destination
     });
 
-    setTeasers(result);
+    if (result) {
+      setTeasers(result);
+    }
   };
 
   const handleZoneChange = async id => {
@@ -65,26 +75,33 @@ const App = () => {
     const result = await appPostFetch(`/zonesTeasers/${currentZoneId}`, {
       teaserId
     });
-    setTeasers(result);
+    if (result) {
+      setTeasers(result);
+    }
   };
 
   const handleOnDeleteTeaser = async teaserId => {
     const result = await appDeleteFetch(`/zonesTeasers/${currentZoneId}`, {
       teaserId
     });
-    setTeasers(result);
+    if (result) {
+      setTeasers(result);
+    }
   };
 
   return (
     <Fragment>
-      <Header theme={theme}>
-        <ZonesList onChange={handleZoneChange} />
-      </Header>
       <Container>
         <Aside theme={theme}>
+          <AsideHeader theme={theme}>
+            <ZonesList onChange={handleZoneChange} />
+          </AsideHeader>
+          <Separator color={theme.palette.secondary.main} />
           <TeaserList onAddTeaserInZone={handleOnAddTeaserInZone} />
         </Aside>
         <Content theme={theme}>
+          <Title theme={theme}>Order teasers on zone</Title>
+          <Separator color={theme.palette.primary.main} />
           <TeaserZoneList
             teasers={teasers}
             onReorder={handleReoder}
@@ -92,7 +109,6 @@ const App = () => {
           />
         </Content>
       </Container>
-      <Footer theme={theme} />
     </Fragment>
   );
 };

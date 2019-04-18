@@ -13,6 +13,8 @@ const AddTeaserInput = styled.input`
   border: 0;
   font-size: large;
   width: 200px;
+  padding: 10px;
+  color: ${({ theme }) => theme.palette.secondary.main};
   background-color: ${({ theme }) => theme.palette.secondary.light};
 `;
 
@@ -20,18 +22,38 @@ const AddTeaserButton = styled.button`
   border: 0;
   font-size: large;
   background-color: transparent;
-  color: ${({ theme }) => theme.palette.secondary.light};
+  color: ${({ theme }) => theme.palette.secondary.main};
   border: ${({ theme }) => `2px solid ${theme.palette.secondary.light}`};
   cursor: pointer;
 `;
 
-const TableRow = ({ onAddTeaserInZone, id, name }) => (
-  <tr>
-    <td>
-      <button onClick={() => onAddTeaserInZone(id)}>+</button>
-      {name}
-    </td>
-  </tr>
+const Table = styled.table`
+  text-align: center;
+  width: 100%;
+`;
+
+const TableHeaderRow = styled.th`
+  color: ${({ theme }) => theme.palette.secondary.light};
+`;
+
+const TableRowStyle = styled.tr`
+  cursor: pointer;
+`;
+
+const TableCell = styled.td`
+  font-size: large;
+  color: ${({ theme }) => theme.palette.secondary.light};
+`;
+
+const TableRow = ({ onAddTeaserInZone, id, name, theme }) => (
+  <TableRowStyle theme={theme} onClick={() => onAddTeaserInZone(id)}>
+    <TableCell theme={theme}>
+      <AddTeaserButton theme={theme} onClick={() => onAddTeaserInZone(id)}>
+        +
+      </AddTeaserButton>
+    </TableCell>
+    <TableCell theme={theme}>{name}</TableCell>
+  </TableRowStyle>
 );
 
 const TeaserList = ({ onAddTeaserInZone }) => {
@@ -52,7 +74,9 @@ const TeaserList = ({ onAddTeaserInZone }) => {
     const result = await appPostFetch("/teasers", {
       name: teaserName
     });
-    setTeasers([...teasers, result]);
+    if (result) {
+      setTeasers([...teasers, result]);
+    }
   };
 
   const handleNameChange = event => setTeaserName(event.target.value);
@@ -70,22 +94,24 @@ const TeaserList = ({ onAddTeaserInZone }) => {
           +
         </AddTeaserButton>
       </AddTeaserContainer>
-      <table>
+      <Table>
         <thead>
           <tr>
-            <th>Name</th>
+            <TableHeaderRow theme={theme}>Action</TableHeaderRow>
+            <TableHeaderRow theme={theme}>Name</TableHeaderRow>
           </tr>
         </thead>
         <tbody>
           {teasers.map(teaser => (
             <TableRow
               key={`TeaserList_teasers_${teaser.id}`}
+              theme={theme}
               {...teaser}
               onAddTeaserInZone={onAddTeaserInZone}
             />
           ))}
         </tbody>
-      </table>
+      </Table>
     </Fragment>
   );
 };

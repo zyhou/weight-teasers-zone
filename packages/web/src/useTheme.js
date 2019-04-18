@@ -3,9 +3,9 @@ import { createContext, useContext } from "react";
 export const defaultTheme = {
   palette: {
     primary: {
-      light: "#81979A",
       main: "#47727B",
-      dark: "#3E445B"
+      dark: "#3E445B",
+      light: "#81979A"
     },
     secondary: {
       light: "#F5F0E7",
