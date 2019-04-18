@@ -31,7 +31,7 @@ const Aside = styled.div`
 
 const Content = styled.div`
   flex: 1 0 auto;
-  background: ${({ theme }) => theme.palette.secondary.light};
+  background: ${({ theme }) => theme.palette.secondary.main};
 `;
 
 const Footer = styled.footer`

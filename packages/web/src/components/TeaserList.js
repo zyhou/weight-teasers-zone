@@ -1,5 +1,29 @@
 import React, { Fragment, useEffect, useState } from "react";
+import styled from "@emotion/styled";
+
 import { appFetch, appPostFetch } from "../fetch";
+import useTheme from "../useTheme";
+
+const AddTeaserContainer = styled.div`
+  display: flex;
+  margin: 10px;
+`;
+
+const AddTeaserInput = styled.input`
+  border: 0;
+  font-size: large;
+  width: 200px;
+  background-color: ${({ theme }) => theme.palette.secondary.light};
+`;
+
+const AddTeaserButton = styled.button`
+  border: 0;
+  font-size: large;
+  background-color: transparent;
+  color: ${({ theme }) => theme.palette.secondary.light};
+  border: ${({ theme }) => `2px solid ${theme.palette.secondary.light}`};
+  cursor: pointer;
+`;
 
 const TableRow = ({ onAddTeaserInZone, id, name }) => (
   <tr>
@@ -11,6 +35,7 @@ const TableRow = ({ onAddTeaserInZone, id, name }) => (
 );
 
 const TeaserList = ({ onAddTeaserInZone }) => {
+  const theme = useTheme();
   const [teasers, setTeasers] = useState([]);
   const [teaserName, setTeaserName] = useState("foo");
 
@@ -34,8 +59,17 @@ const TeaserList = ({ onAddTeaserInZone }) => {
 
   return (
     <Fragment>
-      <input type="text" value={teaserName} onChange={handleNameChange} />
-      <button onClick={handleAddTeaser}>Add teaser</button>
+      <AddTeaserContainer theme={theme}>
+        <AddTeaserInput
+          theme={theme}
+          type="text"
+          value={teaserName}
+          onChange={handleNameChange}
+        />
+        <AddTeaserButton theme={theme} onClick={handleAddTeaser}>
+          +
+        </AddTeaserButton>
+      </AddTeaserContainer>
       <table>
         <thead>
           <tr>

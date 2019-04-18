@@ -6,7 +6,7 @@ import useTheme from "../useTheme";
 
 const ContainerSelect = styled.div`
   background-color: ${({ theme }) => theme.palette.primary.light};
-  width: 20em;
+  width: 10em;
   height: 3em;
   line-height: 3;
   overflow: hidden;
@@ -14,28 +14,14 @@ const ContainerSelect = styled.div`
 `;
 
 const Select = styled.select`
-  outline: 0;
-  box-shadow: none;
   border: 0 !important;
   background: ${({ theme }) => theme.palette.primary.light};
-  background-image: none;
   width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0 0 0 0.5em;
-  color: ${({ theme }) => theme.palette.secondary.main};
+  padding: 0 0 0 1em;
+  color: ${({ theme }) => theme.palette.secondary.light};
   cursor: pointer;
-
-  &:after {
-    content: "\25BC";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    padding: 0 1em;
-    background: #34495e;
-    pointer-events: none;
-  }
+  font-size: large;
 `;
 
 const Option = ({ id, name }) => <option value={id}>{name}</option>;
