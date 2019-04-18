@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "populate-db": "node populateDb.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

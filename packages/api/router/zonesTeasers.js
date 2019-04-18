@@ -44,7 +44,7 @@ router.post(
       insert into zones_teasers (zones_id, teasers_id, weight)
       VALUES ($1, $2, $3);
     `,
-      [zoneId, teaserId, weights[0].maxweight]
+      [zoneId, teaserId, weights[0].maxweight || 0]
     );
     const teasers = await getZonesTeasersOrder(zoneId);
     return res.send(teasers);

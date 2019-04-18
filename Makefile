@@ -18,3 +18,6 @@ init-db:
 
 drop-db:
 	sudo -u postgres dropdb $(PGDATABASE)
+
+populate-db:
+	yarn workspace @weight-teasers-zone/api populate-db
