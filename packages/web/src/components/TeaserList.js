@@ -45,16 +45,23 @@ const TableCell = styled.td`
   color: ${({ theme }) => theme.palette.secondary.light};
 `;
 
-const TableRow = ({ onAddTeaserInZone, id, name, theme }) => (
-  <TableRowStyle theme={theme} onClick={() => onAddTeaserInZone(id)}>
-    <TableCell theme={theme}>
-      <AddTeaserButton theme={theme} onClick={() => onAddTeaserInZone(id)}>
-        +
-      </AddTeaserButton>
-    </TableCell>
-    <TableCell theme={theme}>{name}</TableCell>
-  </TableRowStyle>
-);
+const TableRow = ({ onAddTeaserInZone, id, name, theme }) => {
+  const onClick = event => {
+    event.stopPropagation();
+    onAddTeaserInZone(id);
+  };
+
+  return (
+    <TableRowStyle theme={theme} onClick={onClick}>
+      <TableCell theme={theme}>
+        <AddTeaserButton theme={theme} onClick={onClick}>
+          +
+        </AddTeaserButton>
+      </TableCell>
+      <TableCell theme={theme}>{name}</TableCell>
+    </TableRowStyle>
+  );
+};
 
 const TeaserList = ({ onAddTeaserInZone }) => {
   const theme = useTheme();
